@@ -12,14 +12,15 @@ import map.Map;
  * operations can assume a source vertex already has somewhere to store edges. An
  * edge is stored exactly once, under its source, which makes a single edge cheap
  * to add, look up, and remove, but makes {@link #removeVertex(Object)} cost
- * {@code O(|V| + |E|)}, since the edges pointing into a vertex are unindexed and
- * must be found by scanning every other vertex's inner map.
+ * {@code O(|V| + |E|)} in the worst case ({@code O(|V|)} on average), since the
+ * edges pointing into a vertex are unindexed and must be found by scanning every
+ * other vertex's inner map.
  *
  * @param <V> the type of the vertices in this graph.
  */
 public class AdjacencyListGraph<V> implements Graph<V> {
 
-  private final Map<V, Map<V, Double>> adjacency;  // vertex -> (out-neighbor -> weight)
+  private Map<V, Map<V, Double>> adjacency;  // vertex -> (out-neighbor -> weight)
   private int edgeCount;                            // how many edges the graph holds
 
   public AdjacencyListGraph() {
@@ -73,6 +74,9 @@ public class AdjacencyListGraph<V> implements Graph<V> {
   public boolean addEdge(V from, V to, double weight) {
     if (from == null || to == null) {
       throw new IllegalArgumentException("endpoints cannot be null");
+    }
+    if (from.equals(to)) {
+      throw new IllegalArgumentException("self-loops are not allowed");
     }
     if (!adjacency.containsKey(from) || !adjacency.containsKey(to)) {
       throw new IllegalArgumentException("both endpoints must be in the graph");

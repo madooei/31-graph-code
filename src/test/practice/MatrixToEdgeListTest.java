@@ -2,6 +2,7 @@ package practice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,11 +50,13 @@ public class MatrixToEdgeListTest {
   }
 
   @Test
-  public void selfLoopOnDiagonalIsRecorded() {
+  public void nonZeroDiagonalEntryThrows() {
     double[][] matrix = {{3, 0}, {0, 0}};
-    List<Edge> edges = MatrixToEdgeList.toEdgeList(matrix);
-    Set<Edge> actual = new HashSet<>(edges);
-    assertEquals(1, edges.size());
-    assertTrue(actual.contains(new Edge(0, 0, 3)));
+    try {
+      MatrixToEdgeList.toEdgeList(matrix);
+      fail("Failed to throw IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      return;
+    }
   }
 }

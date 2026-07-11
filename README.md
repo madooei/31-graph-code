@@ -25,12 +25,13 @@ src/test/practice/            tests for the practice problems
 `Graph<V>` has one type parameter, the vertex type; an edge is directed and carries a `double`
 weight. Vertices behave like a set (`addVertex`, `removeVertex`, `containsVertex`); edges are added
 with `addEdge(from, to, weight)` (or `addEdge(from, to)` for the default weight `1.0`), and both
-endpoints must already be present. You look around the graph with `neighbors(vertex)` (the
-out-neighbors) and `vertices()`, both `Iterable<V>` for an ordinary for-each loop.
+endpoints must already be present and distinct. You look around the graph with `neighbors(vertex)`
+(the out-neighbors) and `vertices()`, both `Iterable<V>` for an ordinary for-each loop.
 
 `AdjacencyListGraph<V>` stores a `Map<V, Map<V, Double>>` — each vertex maps to a map from its
-out-neighbors to edge weights — plus a running `edgeCount`. Specific-edge operations are `O(1)` on
-average; `removeVertex` is `O(|V| + |E|)` because in-edges are not indexed.
+out-neighbors to edge weights — plus a running `edgeCount`. Specific-edge operations are `O(|V|)` in
+the worst case and `O(1)` on average; `removeVertex` is `O(|V| + |E|)` in the worst case, `O(|V|)` on
+average, because in-edges are not indexed.
 
 ## Running
 

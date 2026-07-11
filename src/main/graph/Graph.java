@@ -3,8 +3,8 @@ package graph;
 /**
  * A graph of vertices of type {@code V}.
  *
- * <p>A graph stores a set of vertices and a set of edges that join them. Each
- * edge is directed and carries a {@code double} weight. Whether the graph
+ * <p>A graph stores a set of vertices and a set of edges that join distinct
+ * vertices. Each edge is directed and carries a {@code double} weight. Whether the graph
  * behaves as directed or undirected is not fixed here: it is settled by the
  * class that implements this interface. A directed implementation treats
  * {@link #neighbors(Object)} as the out-neighbors of a vertex; an undirected
@@ -54,17 +54,17 @@ public interface Graph<V> {
 
   /**
    * Adds a directed edge from one vertex to another and records its weight.
-   * Both endpoints must already be present in the graph. If the edge already
-   * exists, its weight is replaced with the new weight and the call returns
-   * false, since the edge itself was not new.
+   * Both endpoints must already be present in the graph, and they must be
+   * distinct. If the edge already exists, its weight is replaced with the new
+   * weight and the call returns false, since the edge itself was not new.
    *
    * @param from the vertex the edge leaves.
    * @param to the vertex the edge enters.
    * @param weight the weight to record for the edge.
    * @return true if a new edge was added; false if the edge already existed and
    *     its weight was replaced.
-   * @throws IllegalArgumentException if from or to is null, or if either
-   *     endpoint is not already in the graph.
+   * @throws IllegalArgumentException if from or to is null, if the endpoints
+   *     are equal, or if either endpoint is not already in the graph.
    */
   boolean addEdge(V from, V to, double weight);
 
@@ -72,15 +72,16 @@ public interface Graph<V> {
    * Adds an unweighted directed edge from one vertex to another. This is the
    * overload for unweighted graphs: it records a default weight of {@code 1.0}
    * so a caller never has to name a weight it does not care about. Both
-   * endpoints must already be present in the graph. If the edge already exists,
-   * its weight is replaced with {@code 1.0} and the call returns false.
+   * endpoints must already be present in the graph, and they must be distinct.
+   * If the edge already exists, its weight is replaced with {@code 1.0} and the
+   * call returns false.
    *
    * @param from the vertex the edge leaves.
    * @param to the vertex the edge enters.
    * @return true if a new edge was added; false if the edge already existed and
    *     its weight was replaced.
-   * @throws IllegalArgumentException if from or to is null, or if either
-   *     endpoint is not already in the graph.
+   * @throws IllegalArgumentException if from or to is null, if the endpoints
+   *     are equal, or if either endpoint is not already in the graph.
    */
   boolean addEdge(V from, V to);
 

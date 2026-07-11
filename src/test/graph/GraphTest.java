@@ -137,6 +137,23 @@ public abstract class GraphTest {
   }
 
   @Test
+  public void addEdgeSelfLoopThrows() {
+    graph.addVertex("Paris");
+    try {
+      graph.addEdge("Paris", "Paris", 5.0);
+      fail("Failed to throw IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      // expected
+    }
+    try {
+      graph.addEdge("Paris", "Paris");
+      fail("Failed to throw IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      return;
+    }
+  }
+
+  @Test
   public void removeEdgeReturnsTrueThenFalse() {
     graph.addVertex("Paris");
     graph.addVertex("Lyon");

@@ -4,12 +4,11 @@ package graph;
  * A graph of vertices of type {@code V}.
  *
  * <p>A graph stores a set of vertices and a set of edges that join distinct
- * vertices. Each edge is directed and carries a {@code double} weight. Whether the graph
- * behaves as directed or undirected is not fixed here: it is settled by the
- * class that implements this interface. A directed implementation treats
- * {@link #neighbors(Object)} as the out-neighbors of a vertex; an undirected
- * implementation, where every edge runs both ways, returns every vertex joined
- * to the given one. The signatures are the same either way.</p>
+ * vertices. This is a directed graph: each edge is directed and carries a
+ * {@code double} weight, and {@link #neighbors(Object)} returns the out-neighbors
+ * of a vertex, the vertices reachable by following an edge in its direction. A
+ * directed graph is the more general object; an undirected graph is represented
+ * by adding one directed edge in each direction.</p>
  *
  * <p>There is a single type parameter, {@code V}, for the type of the vertices.
  * A vertex can be anything with an identity: a {@code String} for a city name,
@@ -69,12 +68,12 @@ public interface Graph<V> {
   boolean addEdge(V from, V to, double weight);
 
   /**
-   * Adds an unweighted directed edge from one vertex to another. This is the
-   * overload for unweighted graphs: it records a default weight of {@code 1.0}
-   * so a caller never has to name a weight it does not care about. Both
-   * endpoints must already be present in the graph, and they must be distinct.
-   * If the edge already exists, its weight is replaced with {@code 1.0} and the
-   * call returns false.
+   * Adds a directed edge with a default weight of {@code 1.0}. This is a
+   * convenience for edges whose weight you do not care about; it is a default
+   * value, not a separate unweighted mode, and the interface enforces nothing
+   * about weights. Both endpoints must already be present in the graph, and
+   * they must be distinct. If the edge already exists, its weight is replaced
+   * with {@code 1.0} and the call returns false.
    *
    * @param from the vertex the edge leaves.
    * @param to the vertex the edge enters.

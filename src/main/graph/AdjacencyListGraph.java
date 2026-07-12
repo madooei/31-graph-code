@@ -54,8 +54,7 @@ public class AdjacencyListGraph<V> implements Graph<V> {
     // remove the edges pointing into the vertex, wherever they are
     for (V other : adjacency) {
       Map<V, Double> out = adjacency.get(other);
-      if (out.containsKey(vertex)) {
-        out.remove(vertex);
+      if (out.remove(vertex)) {  // remove reports whether an edge was there
         edgeCount--;
       }
     }
@@ -82,8 +81,7 @@ public class AdjacencyListGraph<V> implements Graph<V> {
       throw new IllegalArgumentException("both endpoints must be in the graph");
     }
     Map<V, Double> out = adjacency.get(from);
-    boolean isNew = !out.containsKey(to);
-    out.put(to, weight);  // store the weight, or replace it if the edge existed
+    boolean isNew = out.put(to, weight);  // put reports whether the edge was new
     if (isNew) {
       edgeCount++;
     }
@@ -101,10 +99,9 @@ public class AdjacencyListGraph<V> implements Graph<V> {
       throw new IllegalArgumentException("endpoints cannot be null");
     }
     Map<V, Double> out = adjacency.get(from);
-    if (out == null || !out.containsKey(to)) {
+    if (out == null || !out.remove(to)) {
       return false;  // no such edge; nothing changed
     }
-    out.remove(to);
     edgeCount--;
     return true;
   }
